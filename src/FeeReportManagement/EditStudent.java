@@ -1,4 +1,3 @@
-
 package FeeReportManagement;
 import java.awt.event.*;
 import java.awt.*;
@@ -124,12 +123,13 @@ public class EditStudent extends JFrame implements ActionListener{
         
         ch.addMouseListener(new MouseAdapter()
         {
+                @Override
                 public void mouseClicked(MouseEvent arg0){
                     try{
                     ConnectionClass obj1 = new ConnectionClass();
                     int roll = Integer.parseInt(ch.getSelectedItem());
                     
-               String q1 = "Select * from Students where rollno = roll";
+               String q1 = "Select * from Students where rollno ="+roll;
                ResultSet rest1 = obj1.stm.executeQuery(q1);
                while(rest1.next()){
                    tf1.setText(rest1.getString("name"));
@@ -151,7 +151,7 @@ public class EditStudent extends JFrame implements ActionListener{
         });
     }
     public void actionPerformed(ActionEvent e){
-     if(e.getSource()==b1){
+            int roll = Integer.parseInt(ch.getSelectedItem());
             String name = tf1.getText();
             String email = tf2.getText();
             String course = tf3.getText();
@@ -161,17 +161,17 @@ public class EditStudent extends JFrame implements ActionListener{
             String add = tf7.getText();
             String country = tf8.getText();
             String contact = tf9.getText();
-            
-            try{
-                ConnectionClass obj = new ConnectionClass();
-                String q = "Update Students set name = "+name+" ,email = "+email+",course ="+course+",fee ="+fee+",paid = "+paid+" ,due = "+due+",address = "+add+",country = "+country+",contact = "+contact+" where rollno =  "+ch;
-                int a = obj.stm.executeUpdate(q);
+        if(e.getSource()==b1){
+                     try{
+                ConnectionClass obj2 = new ConnectionClass();
+                String q = "Update Students set name = '"+name+"' ,email = '"+email+"',course ='"+course+"',fee ='"+fee+"',paid =' "+paid+"' ,due = '"+due+"',address = '"+add+"',country = '"+country+"',contact = '"+contact+"' where rollno =  "+roll;
+                int a = obj2.stm.executeUpdate(q);
                 if(a==1){
                    JOptionPane.showMessageDialog(null,"Data Inserted Successfully!!!");
                    this.setVisible(false);
                 }
                 else{
-                   JOptionPane.showMessageDialog(null,"Data Inserted Unsuccessful!");
+                   JOptionPane.showMessageDialog(null,"Data Insertion Unsuccessful!");
                    this.setVisible(true);
                    new AdminSection().setVisible(true);
                 }
